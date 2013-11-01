@@ -68,18 +68,3 @@ if __name__ == '__main__':
     pftw = PalmeroFTW()
     #pftw.transform()
     pftw.merge()
-
-"""
-{'cartodb_id': '4842',
- 'created_at': '2013-10-29 01:48:28.187051',
- 'dne_distri': '1',
- 'dne_seccio': '15',
- 'id': '4842',
- 'mesa_desde': '7326',
- 'mesa_hasta': '7334',
- 'the_geom': '',
- 'total': '62',
- 'updated_at': '2013-10-29 01:48:29.01991',
- 'vot_parcodigo': '506',
- 'votacion': 'VotosCandidaturaMesasDNacionales'}
-"""
