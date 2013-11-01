@@ -103,11 +103,11 @@ class PalmeroFTW(object):
             outrow = [fake_id,]
             # Load in the lists in the same "alphabetical" order
             for list_, total in sorted(totals.items(), key=lambda x:x[0]):
-                outrow.append(total)
+                outrow.append(int(total))
             # Load in the extra stuff we've calculated
             outrow.append(leader)
-            outrow.append(leader_total)
-            outrow.append(margin_of_victory)
+            outrow.append(int(leader_total))
+            outrow.append(int(margin_of_victory))
             # Add this row to the global list outside the loop
             outrows.append(outrow)
         # Open up a text file and write out all the data
