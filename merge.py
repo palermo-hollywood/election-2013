@@ -53,14 +53,14 @@ class PalmeroFTW(object):
                     'establecim': row['properties']['establecim'],
                     '187_total': int(results_data['187_total']),
                     '501_total': int(results_data['501_total']),
-                     '502_total': int(results_data['502_total']),
-                     '503_total': int(results_data['503_total']),
-                     '505_total':  int(results_data['505_total']),
-                     '506_total': int(results_data['506_total']),
-                     'fake_id': results_data['fake_id'],
-                     'leader': int(results_data['leader']),
-                     'leader_total': int(results_data['leader_total']),
-                     'margin_of_victory': int(results_data['margin_of_victory'])
+                    '502_total': int(results_data['502_total']),
+                    '503_total': int(results_data['503_total']),
+                    '505_total':  int(results_data['505_total']),
+                    '506_total': int(results_data['506_total']),
+                    'fake_id': results_data['fake_id'],
+                    'leader': int(results_data['leader']),
+                    'leader_total': int(results_data['leader_total']),
+                    'margin_of_victory': int(results_data['margin_of_victory'])
                 }
             }
             # Add in the results data
