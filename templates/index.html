@@ -27,14 +27,44 @@
 <body>
     <div id="map"></div>
     <script type="text/javascript">
-        var map = L.map('map').setView([-34.607214907435875, -58.440399169921875], 12);
-        L.tileLayer('http://{s}.tile.cloudmade.com/BC9A493B41014CAABB98F0471D759707/997/256/{z}/{x}/{y}.png', {
-            maxZoom: 18,
-            attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://cloudmade.com">CloudMade</a>'
-        }).addTo(map);
+    var map = L.map('map').setView([-34.607214907435875, -58.440399169921875], 12);
+   var stamenUrl = 'http://{s}.tile.stamen.com/toner/{z}/{x}/{y}.png';
+    var stamenAttribution = 'Map tiles by <a href="http://stamen.com">Stamen Design</a>, under <a href="http://creativecommons.org/licenses/by/3.0">CC BY 3.0</a>. Data by <a href="http://openstreetmap.org">OpenStreetMap</a>, under <a href="http://creativecommons.org/licenses/by-sa/3.0">CC BY SA</a>.';
+    var stamenLayer = new L.TileLayer(stamenUrl, {maxZoom: 18, attribution: stamenAttribution});
+    map.addLayer(stamenLayer);
 
-    $.getJSON("/static/results.json", function (response) {
-        var dataLayer = L.geoJson().addTo(map);
+    var radiusConstant = 0.5;
+    var getRadius = function(value) {
+        return Math.sqrt(value)*radiusConstant;
+    };
+//'187_total', '501_total', '502_total',
+//        '503_total', '505_total', '506_total',
+    var list2color = {
+        187: 'red',
+        501: 'blue',
+        502: 'yellow',
+        503: 'green',
+        505: 'purple',
+        506: 'pink',
+    }
+
+    $.getJSON("/static/results.geojson", function (response) {
+        var dataLayer = L.geoJson(response, {
+            pointToLayer: function (feature, latlng) {
+                var marker = new L.circleMarker(latlng, {
+                    fillColor: list2color[feature.properties['leader']],
+                    color: list2color[feature.properties['leader']],
+                    fillOpacity: 0.4,
+                    weight: 1
+                })
+                .setRadius(getRadius(feature.properties['margin_of_victory']))
+                .bindPopup(
+                    "<b>" + feature.properties['establecim'] + "</b><br>" +
+                    feature.properties['direccion']
+                );
+                return marker;
+            }
+        }).addTo(map);
         dataLayer.addData(response);
     });
     </script>
