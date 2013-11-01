@@ -8,16 +8,16 @@ class PalmeroFTW(object):
     """
     All the tricks we need to merge our data.
     """
-    primary_csv_path = "./votos_establecimiento_caba_paso.csv"
-    general_csv_path = "./votos_establecimiento_caba_octubre.csv"
-    location_json_path = "./locales_caba_paso2013.geojson"
+    primary_csv_path = "./input/votos_establecimiento_caba_paso.csv"
+    general_csv_path = "./input/votos_establecimiento_caba_octubre.csv"
+    location_json_path = "./input/locales_caba_paso2013.geojson"
     outheaders = [
         'fake_id', '187_total', '501_total', '502_total',
         '503_total', '505_total', '506_total',
         'leader', 'leader_total', 'margin_of_victory',
     ]
-    outcsv_path = "merged_totals.csv"
-    outjson_path = "merged_totals.geojson"
+    outcsv_path = "output/merged_totals.csv"
+    outjson_path = "output/merged_totals.geojson"
 
     def merge(self):
         """
@@ -118,28 +118,5 @@ class PalmeroFTW(object):
 
 if __name__ == '__main__':
     pftw = PalmeroFTW()
-    #pftw.transform()
+    pftw.transform()
     pftw.merge()
-
-
-"""
-{u'geometry': {u'coordinates': [-58.496182, -34.590793], u'type': u'Point'},
- u'id': 5443,
- u'properties': {u'cant_mesas': u'9',
-                 u'cartodb_id': 807,
-                 u'circuito': u'167',
-                 u'codigo_dis': u'1',
-                 u'codigo_pos': u'',
-                 u'created_at': u'2013-08-12T00:10:49Z',
-                 u'direccion': u'TERRADA 3983',
-                 u'distrito': u'CAPITAL FEDERAL',
-                 u'dne_distri': 1,
-                 u'dne_seccio': 15,
-                 u'establecim': u'ESC N\xba4 CNEL ALVAREZ THOMAS',
-                 u'id': 5443,
-                 u'localidad': u'CAP FED',
-                 u'mesa_desde': 7326,
-                 u'mesa_hasta': 7334,
-                 u'seccion': u'15',
-                 u'updated_at': u'2013-08-12T00:11:40Z'},
-"""
