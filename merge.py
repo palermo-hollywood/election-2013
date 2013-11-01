@@ -10,11 +10,8 @@ class PalmeroFTW(object):
     general_csv_path = "./votos_establecimiento_caba_octubre.csv"
 
     def transform(self):
-        self.transform_primary()
-
-    def transform_primary(self):
-        primary_csv = csv.DictReader(open(self.primary_csv_path, 'r'))
-        for row in primary_csv:
+        general_csv = csv.DictReader(open(self.general_csv_path, 'r'))
+        for row in general_csv:
             print row
 
 
