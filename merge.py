@@ -65,7 +65,6 @@ class PalmeroFTW(object):
             }
             # Add in the results data
             pprint(merged_dict)
-            merged_dict['properties'].update(csv_data[fake_id])
             # Toss it in the global list
             merged_features.append(merged_dict)
         # Structure out new merged JSON
