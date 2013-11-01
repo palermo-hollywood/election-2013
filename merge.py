@@ -43,6 +43,7 @@ class PalmeroFTW(object):
                 row['properties']['mesa_desde'],
                 row['properties']['mesa_hasta']
             )
+            results_data = csv_data[fake_id]
             # Filter it down to the data we want to keep
             merged_dict = {
                 'geometry': row['geometry'],
@@ -50,9 +51,20 @@ class PalmeroFTW(object):
                 'properties': {
                     'direccion': row['properties']['direccion'],
                     'establecim': row['properties']['establecim'],
+                    '187_total': int(results_data['187_total']),
+                    '501_total': int(results_data['501_total']),
+                     '502_total': int(results_data['502_total']),
+                     '503_total': int(results_data['503_total']),
+                     '505_total':  int(results_data['505_total']),
+                     '506_total': int(results_data['506_total']),
+                     'fake_id': results_data['fake_id'],
+                     'leader': int(results_data['leader']),
+                     'leader_total': int(results_data['leader_total']),
+                     'margin_of_victory': int(results_data['margin_of_victory'])
                 }
             }
             # Add in the results data
+            pprint(merged_dict)
             merged_dict['properties'].update(csv_data[fake_id])
             # Toss it in the global list
             merged_features.append(merged_dict)
