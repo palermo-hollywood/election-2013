@@ -13,7 +13,8 @@ def index():
 
 <p>Circles are colored in to represent
 that party that won the most votes and sized to show the margin of victory.</p>
-
+""",
+        about = """
 <p>
     This is a modified take on <a href="http://www.lanacion.com.ar/1633333-como-fueron-los-resultados-de-las-elecciones-en-la-escuela-donde-votaste">a map</a> published by <em>La Nacion</em> 
     last week.

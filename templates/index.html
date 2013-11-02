@@ -137,6 +137,59 @@
             padding: 4px 0;
             margin: 4px 0 0 0;
         }
+        .legend {
+            clear:both;
+        }
+        .legend div {
+            float: left;
+            clear: none;
+            margin: 0 0 2px 0 !important;
+        }
+        .legend-hed {
+            font-size: 12px;
+            font-weight: bold;
+            margin: 0;
+            padding: 0 0 3px 0;
+            text-transform: uppercase;
+        }
+        .legend .party {
+            width: 33%;
+            padding: 3px;
+        }
+        .legend .name {
+            width: 100%;
+            text-align: center;
+            color: white;
+            font-size: 17px;
+        }
+        .legend .percent {
+            clear:both;
+            font-size:22px;
+            text-align:center;
+            width:100%;
+        }
+        .legend .votes {
+            width: 100%;
+            text-align:center;
+            font-size: 11px;
+        }
+        .about {
+            clear:both;
+            border-top: 1px dotted #ddd;
+        }
+        .about p {
+           font-size: 11px !important;
+           line-height:13px !important;
+        } 
+       .pro {
+            background-color: #ffda00;
+        }
+        .unen {
+            background-color: #6eb440;
+        }
+        .fvp {
+            background-color: #50ade6;
+        }
         @media screen and (max-width: 768px) {
             .mobile-nav {
                 display: inline;
@@ -176,6 +229,29 @@
         </div>
         <div>
             {{ description|safe }}
+        </div>
+        <div style="clear:both;border-top: 1px dotted #ddd;width:100%;padding-bottom:2px;"></div>
+        <h3 class="legend-hed">Overall results</h3>
+        <div class="legend">
+            <div class="party">
+                <div class="name pro">1. Pro</div>
+                <div class="percent">&nbsp;&nbsp;34.5%</div>
+                <div class="votes">623,117 votes</div>
+            </div>
+            <div class="party">
+                <div class="name unen">2. UNEN</div>
+                <div class="percent">&nbsp;&nbsp;32.2%</div>
+                <div class="votes">582,828 votes</div>
+            </div>
+            <div class="party">
+                <div class="name fvp">3. FvP</div>
+                <div class="percent">&nbsp;&nbsp;21.6%</div>
+                <div class="votes">390,506 votes</div>
+            </div>
+        </div>
+        <div style="clear:both;"></div>
+        <div class="about">
+            {{ about|safe }}
         </div>
         <div>
             <a href="http://blogs.lanacion.com.ar/datafest/">
