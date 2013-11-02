@@ -92,8 +92,8 @@
     }
 
     $.getJSON("{{ url_for('static', filename='results.geojson') }}", function(response) {
-        var tileLayer = L.tileLayer("{{ url_for('static', filename='tiles/') }}buenos-aires-election-2013-arrows/{z}/{x}/{y}.png");
-        var dataLayer = L.geoJson(response, {
+        var arrowLayer = L.tileLayer("{{ url_for('static', filename='tiles/') }}buenos-aires-election-2013-arrows/{z}/{x}/{y}.png");
+        var circleLayer = L.geoJson(response, {
             pointToLayer: function (feature, latlng) {
                 var marker = new L.circleMarker(latlng, {
                     fillColor: list2color[feature.properties['leader']],
@@ -111,8 +111,8 @@
         });
 
         L.control.layers({
-            'Arrow Layer': tileLayer.addTo(map),
-            'Bubble Layer': dataLayer
+            'By radius': circleLayer,
+            'By direction': arrowLayer
         }, null, {collapsed: false}).addTo(map);
         new L.Control.Zoom({position: "topright"}).addTo(map);
     });
