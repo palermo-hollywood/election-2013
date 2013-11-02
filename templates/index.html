@@ -117,6 +117,13 @@
         .popup table th.right {
             text-align:right;
         }
+        .modal-content h4, .modal-body {
+            margin: 0; 
+            padding: 3px 10px;
+        }
+        .modal-body  {
+            padding: 3px 25px;
+        }
         @media screen and (max-width: 768px) {
             .mobile-nav {
                 display: inline;
@@ -170,6 +177,11 @@
                 </div>
                 <div class="modal-body">
                     {{ description|safe }}
+                </div>
+                <div>
+                    <a href="http://blogs.lanacion.com.ar/datafest/">
+                        <img style="padding: 5px 25px 20px 25px; width:100%" src="{{ url_for('static', filename='datafest_header.jpg') }}">
+                    </a>
                 </div>
             </div>
         </div>
