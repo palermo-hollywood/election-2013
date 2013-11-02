@@ -1,6 +1,6 @@
 ![don't hate](static/screenshot.png)
 
-Resultados de las Oct. 2013 Buenos Aires elecciones. Live at [http://palermo-hollywood.github.io/election-2013/](http://palermo-hollywood.github.io/election-2013/).
+Resultados de las Oct. 2013 Buenos Aires elecciones. Live at [http://palermo-hollywood.github.io/election-2013/](http://palermo-hollywood.github.io/election-2013/)
 
 Getting started
 ---------------
