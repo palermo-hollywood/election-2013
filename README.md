@@ -45,7 +45,7 @@ $ python app.py
 
 To flatten the Flask site so it can be hosted without a server as static files.
 
-```
+```bash
 # This will update the files in the ./build directory
 $ python freeze.py
 ```
