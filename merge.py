@@ -1,3 +1,6 @@
+"""
+Quick utilities for cleaning up the source data.
+"""
 import csv
 import json
 import calculate
@@ -6,7 +9,7 @@ from pprint import pprint
 
 class PalmeroFTW(object):
     """
-    All the tricks we need to merge our data.
+    All the tricks.
     """
     primary_csv_path = "./input/votos_establecimiento_caba_paso.csv"
     general_csv_path = "./input/votos_establecimiento_caba_octubre.csv"
