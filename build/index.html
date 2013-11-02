@@ -465,9 +465,6 @@ that party that won the most votes and sized to show the margin of victory.</p>
     // Fire off to get our GeoJSON
     $.getJSON("static/results.geojson", function(response) {
 
-        // Pull in arrow layer from raster tiles
-        var arrowLayer = L.tileLayer("static/tiles/index.htmlbuenos-aires-election-2013-arrows/{z}/{x}/{y}.png");
-
         // Pull in the circle layer from GeoJSON
         var circleLayer = L.geoJson(response, {
             pointToLayer: function (feature, latlng) {
@@ -486,14 +483,6 @@ that party that won the most votes and sized to show the margin of victory.</p>
 
         // Set the default data layer that will load with the map
         map.addLayer(circleLayer);
-
-        // Create the layer control
-        /*
-        L.control.layers({
-            'By radius': circleLayer,
-            'By rotation': arrowLayer
-        }, null, {collapsed: false}).addTo(map);
-        */
 
         // Add a little headline in there too
         $(".leaflet-control-layers-list").prepend("<h3>Data styles</h3>");
