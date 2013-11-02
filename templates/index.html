@@ -93,8 +93,13 @@
         '503': '#ffda00'  // yellow
     }
 
+    // Fire off to get our GeoJSON
     $.getJSON("{{ url_for('static', filename='results.geojson') }}", function(response) {
+
+        // Pull in arrow layer from raster tiles
         var arrowLayer = L.tileLayer("{{ url_for('static', filename='tiles/') }}buenos-aires-election-2013-arrows/{z}/{x}/{y}.png");
+
+        // Pull in the circle layer from GeoJSON
         var circleLayer = L.geoJson(response, {
             pointToLayer: function (feature, latlng) {
                 var marker = new L.circleMarker(latlng, {
@@ -111,11 +116,17 @@
                 return marker;
             }
         });
+    
+        // Set the default data layer that will load with the map
+        map.addLayer(circleLayer);
 
+        // Create the layer control
         L.control.layers({
             'By radius': circleLayer,
             'By direction': arrowLayer
         }, null, {collapsed: false}).addTo(map);
+
+        // Add the zoom control in the upper right
         new L.Control.Zoom({position: "topright"}).addTo(map);
     });
 
