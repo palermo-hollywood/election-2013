@@ -10,7 +10,7 @@ def index():
         pubdate = "Nov. 2, 2013",
         description = """
 <p>The results of October's deputies election at the schools where
-<em>Capital Federal</em> voters cast ballots.</p>
+Capital Federal voters cast ballots.</p>
 
 <p>Circles are colored in to represent
 that party that won the most votes and sized to show the margin of victory.</p>
