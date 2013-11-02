@@ -1,72 +1,507 @@
-<!html>
+<!DOCTYPE html>
 <html>
 <head>
-    <title>Palermo Hollywood, FTW</title>
+    <title>Resultados de las Buenos Aires elecciones</title>
+    <link rel="stylesheet" href="static/normalize.min.css" />
+    <link rel="stylesheet" href="static/bootstrap.modal.min.css">
     <link rel="stylesheet" href="static/leaflet-0.6.4/leaflet.css" />
     <!--[if lte IE 8]>
         <link rel="stylesheet" href="static/leaflet-0.6.4/leaflet.ie.css" />
     <![endif]-->
+    <link rel='stylesheet' href='http://fonts.googleapis.com/css?family=Source+Sans+Pro'>
     <style type="text/css">
         html {
             margin: 0;
             padding: 0;
+            font-family: Georgia, serif;
         }
         body {
             margin: 0;
             padding: 0;
         }
         #map {
-            position: relative;
+            position:absolute;
+            top:0; bottom:0;
+            width:100%;
             width: 100%;
             height: 100%;
         }
+        form {
+            margin: 0;
+        }
+
+        .mobile-nav {
+            display: none;
+            position: fixed;
+            top: 0;
+            z-index: 4;
+            padding: 0 10px;
+            width: 100%;
+            background-color: rgb(255,255,255);
+            background-color: rgba(255,255,255,0.9);
+            height: 40px;
+            line-height: 40px;
+            box-shadow: 0px 1px 7px rgba(0, 0, 0, 0.4);
+        }
+
+        .mobile-nav h4 {
+            font-family: 'Source Sans Pro', Helvetica, sans-serif;
+            font-size: 16px;
+            margin: 0;
+        }
+
+        .mobile-nav button {
+            position: absolute;
+            top: 5px;
+            right: 10px;
+            z-index: 4;
+        }
+
+        #text {
+            font-family: 'Source Sans Pro', Helvetica, sans-serif;
+            position:absolute;
+            top:10px;
+            left:10px;
+            background: white;
+            z-index: 1000;
+            padding: 5px 10px;
+            max-width: 350px;
+            box-shadow: 0px 1px 7px rgba(0, 0, 0, 0.4);
+            border-radius: 5px;
+        }
+        #text div {
+            margin: 0 0 0 0;
+        }
+
+        #text img {
+            width: 100%;
+        }
+
+        #text h1 {
+            font-size: 26px;
+            line-height: 125%;
+            margin: 0;
+            padding: 0;
+            font-weight: bold;
+        }
+        #text p {
+            font-size: 16px;
+            line-height: 135%;
+            margin: 6px 0;
+            padding: 0;
+        }
+        .leaflet-control-layers-list h3 {
+            margin: 0;
+            padding: 0;
+            font-size: 11px;
+            text-transform: uppercase;
+            font-family: Arial, sans-serif;
+            font-weight: bold;
+        }
+        .leaflet-control {
+            clear: none !important;
+        }
+        .popup {
+            font-family: Arial, sans-serif;
+            width: 200px;
+        }
+        .popup .establecim {
+            font-size: 110%;
+            font-weight: bold;
+        }
+        .popup table {
+            margin: 7px 0 0 0;
+            width: 100%;
+        }
+        .popup table td.winner {
+            font-weight: bold;
+        }
+        .popup table td {
+            border-top: 1px solid #ddd;
+            padding: 2px 0;
+        }
+        .popup table td.right,
+        .popup table th.right {
+            text-align:right;
+        }
+        .popup table th {
+            border-top: 2px solid #ddd;
+            border-bottom: 2px solid #ddd;
+        }
+        .modal-content h4, .modal-body {
+            margin: 0;
+            padding: 3px 10px;
+        }
+
+        .modal-header h4 {
+            font-family: 'Source Sans Pro', Helvetica, sans-serif;
+            line-height: 135%;
+            font-weight: bold;
+            font-size: 18px;
+        }
+        .modal-body  {
+            padding: 3px 25px;
+        }
+
+        .modal-body p {
+            font-family: 'Source Sans Pro', Helvetica, sans-serif;
+            line-height: 135%;
+            font-size: 16px;
+        }
+
+        .robotext {
+            padding: 4px 0;
+            margin: 4px 0 0 0;
+        }
+        .legend {
+            clear:both;
+        }
+        .legend div {
+            float: left;
+            clear: none;
+            margin: 0 0 2px 0 !important;
+        }
+        .legend-hed {
+            font-size: 12px;
+            font-weight: bold;
+            margin: 0;
+            padding: 3px 0 3px 0;
+            text-transform: uppercase;
+        }
+        .legend .party {
+            width: 33%;
+            padding: 3px;
+        }
+        .legend .name {
+            width: 100%;
+            text-align: center;
+            color: white;
+            font-size: 17px;
+        }
+        .legend .percent {
+            clear:both;
+            font-size:22px;
+            text-align:center;
+            width:100%;
+        }
+        .legend .votes {
+            width: 100%;
+            text-align:center;
+            font-size: 11px;
+        }
+        .about {
+            clear:both;
+            border-top: 1px dotted #ddd;
+        }
+        .about p {
+           font-size: 11px !important;
+           line-height:13px !important;
+        } 
+       .pro {
+            background-color: #ffda00;
+        }
+        .unen {
+            background-color: #6eb440;
+        }
+        .fvp {
+            background-color: #50ade6;
+        }
+        .pubdate {
+            margin: 2px 0 !important;
+            font-size: 12px;
+        }
+        @media screen and (max-width: 768px) {
+            .mobile-nav {
+                display: inline;
+            }
+
+            #text {
+                display: none;
+            }
+
+            .leaflet-control-container {
+                display: none;
+            }
+        }
+
+        @media screen and (max-width: 480px) {
+            .mobile-nav h4 {
+                font-size: 12px;
+            }
+        }
+
     </style>
     <script src="static/jquery-1.10.2.min.js"></script>
+    <script src="static/bootstrap.modal.min.js"></script>
+    <script src="static/underscore-min.js"></script>
     <script src="static/leaflet-0.6.4/leaflet.js"></script>
 </head>
 <body>
-    <div id="map"></div>
-    <script type="text/javascript">
-    var map = L.map('map').setView([-34.607214907435875, -58.440399169921875], 12);
-   var stamenUrl = 'http://{s}.tile.stamen.com/toner/{z}/{x}/{y}.png';
-    var stamenAttribution = 'Map tiles by <a href="http://stamen.com">Stamen Design</a>, under <a href="http://creativecommons.org/licenses/by/3.0">CC BY 3.0</a>. Data by <a href="http://openstreetmap.org">OpenStreetMap</a>, under <a href="http://creativecommons.org/licenses/by-sa/3.0">CC BY SA</a>.';
-    var stamenLayer = new L.TileLayer(stamenUrl, {maxZoom: 18, attribution: stamenAttribution});
-    map.addLayer(stamenLayer);
+    <div class="mobile-nav">
+        <h4>Resultados de las Buenos Aires elecciones</h4>
+        <button class="btn btn-primary btn-sm" data-toggle="modal" data-target="#about-modal">
+            ?
+        </button>
+    </div>
+    <div id="text">
+        <div>
+            <h1>Resultados de las Buenos Aires elecciones</h1>
+            <div class="pubdate">Nov. 2, 2013</div>
+        </div>
+        <div>
+            
+<p>The results of October's deputies election at the schools where
+Capital Federal voters cast ballots.</p>
 
+<p>Circles are colored in to represent
+that party that won the most votes and sized to show the margin of victory.</p>
+
+        </div>
+        <div style="clear:both;border-top: 1px dotted #ddd;width:100%;padding-bottom:2px;"></div>
+        <h3 class="legend-hed">Overall results</h3>
+        <div class="legend">
+            <div class="party">
+                <div class="name pro">1. Pro</div>
+                <div class="percent">&nbsp;&nbsp;34.5%</div>
+                <div class="votes">623,117 votes</div>
+            </div>
+            <div class="party">
+                <div class="name unen">2. UNEN</div>
+                <div class="percent">&nbsp;&nbsp;32.2%</div>
+                <div class="votes">582,828 votes</div>
+            </div>
+            <div class="party">
+                <div class="name fvp">3. FvP</div>
+                <div class="percent">&nbsp;&nbsp;21.6%</div>
+                <div class="votes">390,506 votes</div>
+            </div>
+        </div>
+        <div style="clear:both;"></div>
+        <div class="about">
+            
+<p>
+    This is a modified take on <a href="http://www.lanacion.com.ar/1633333-como-fueron-los-resultados-de-las-elecciones-en-la-escuela-donde-votaste">a map</a> published by <em>La Nacion</em> 
+    last week.
+    It was developed by Team Hollywood Palermo at <a href="http://blogs.lanacion.com.ar/datafest/">Datafest 2013</a> in Buenos Aires.
+    The source is <a href="https://github.com/palermo-hollywood/election-2013">available on GitHub</a>.
+</p>
+
+        </div>
+        <div>
+            <a href="http://blogs.lanacion.com.ar/datafest/">
+                <img src="static/datafest_header.jpg">
+            </a>
+        </div>
+    </div>
+    <div id="map"></div>
+
+    <div class="modal" id="about-modal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">x</button>
+                    <h4>Resultados de las Buenos Aires elecciones</h4>
+                </div>
+                <div class="modal-body">
+                    
+<p>The results of October's deputies election at the schools where
+Capital Federal voters cast ballots.</p>
+
+<p>Circles are colored in to represent
+that party that won the most votes and sized to show the margin of victory.</p>
+
+                    <div style="clear:both;border-top: 1px dotted #ddd;width:100%;padding-bottom:2px;"></div>
+                    <h3 class="legend-hed">Overall results</h3>
+                    <div class="legend">
+                        <div class="party">
+                            <div class="name pro">1. Pro</div>
+                            <div class="percent">&nbsp;&nbsp;34.5%</div>
+                            <div class="votes">623,117 votes</div>
+                        </div>
+                        <div class="party">
+                            <div class="name unen">2. UNEN</div>
+                            <div class="percent">&nbsp;&nbsp;32.2%</div>
+                            <div class="votes">582,828 votes</div>
+                        </div>
+                        <div class="party">
+                            <div class="name fvp">3. FvP</div>
+                            <div class="percent">&nbsp;&nbsp;21.6%</div>
+                            <div class="votes">390,506 votes</div>
+                        </div>
+                    </div>
+                    <div style="clear:both;"></div>
+                    <div class="about">
+                        
+<p>
+    This is a modified take on <a href="http://www.lanacion.com.ar/1633333-como-fueron-los-resultados-de-las-elecciones-en-la-escuela-donde-votaste">a map</a> published by <em>La Nacion</em> 
+    last week.
+    It was developed by Team Hollywood Palermo at <a href="http://blogs.lanacion.com.ar/datafest/">Datafest 2013</a> in Buenos Aires.
+    The source is <a href="https://github.com/palermo-hollywood/election-2013">available on GitHub</a>.
+</p>
+
+                    </div>
+                </div>
+                <div>
+                    <a href="http://blogs.lanacion.com.ar/datafest/">
+                        <img style="padding: 5px 25px 20px 25px; width:100%" src="static/datafest_header.jpg">
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script  id='template-popup' type="text/template">
+        <div class="popup">
+    <div class="establecim"><%= titleCase(obj.establecim) %></div>
+    <div class="direccion"><%= titleCase(obj.direccion) %></div>
+    <div class="results">
+        <table>
+            <thead>
+                <th>Party</th>
+                <th class="right">Votes</th>
+                <th class="right">Pct.</th>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>FpV <% if (obj.leader == '501' ) { %>✔<% } %> </td>
+                    <td class="right"><%= addCommas(obj['501_total']) %></td>
+                    <td class="right"><%= getPercentage(obj['501_total'], obj['overall_total']) %>%</td>
+                </tr>
+                <tr>
+                    <td>UNEN <% if (obj.leader == '502' ) { %>✔<% } %></td>
+                    <td class="right"><%= addCommas(obj['502_total']) %></td>
+                    <td class="right"><%= getPercentage(obj['502_total'], obj['overall_total']) %>%</td>
+                </tr>
+                <tr>
+                    <td>Pro <% if (obj.leader == '503' ) { %>✔<% } %></td>
+                    <td class="right"><%= addCommas(obj['503_total']) %></td>
+                    <td class="right"><%= getPercentage(obj['503_total'], obj['overall_total']) %>%</td>
+                </tr>
+                <tr>
+                    <td>AyL <% if (obj.leader == '187' ) { %>✔<% } %></td>
+                    <td class="right"><%= addCommas(obj['187_total']) %></td>
+                    <td class="right"><%= getPercentage(obj['187_total'], obj['overall_total']) %>%</td>
+                </tr>
+                <tr>
+                    <td>FIT <% if (obj.leader == '505' ) { %>✔<% } %></td>
+                    <td class="right"><%= addCommas(obj['505_total']) %></td>
+                    <td class="right"><%= getPercentage(obj['505_total'], obj['overall_total']) %>%</td>
+                </tr>
+                <tr>
+                    <td>CP <% if (obj.leader == '506' ) { %>✔<% } %></td>
+                    <td class="right"><%= addCommas(obj['506_total']) %></td>
+                    <td class="right"><%= getPercentage(obj['506_total'], obj['overall_total']) %>%</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+    </script>
+
+    <script type="text/javascript">
+
+    var addCommas = function (nStr) {
+        nStr += '';
+        x = nStr.split('.');
+        x1 = x[0];
+        x2 = x.length > 1 ? '.' + x[1] : '';
+        var rgx = /(\d+)(\d{3})/;
+        while (rgx.test(x1)) {
+            x1 = x1.replace(rgx, '$1' + ',' + '$2');
+        }
+        return x1 + x2;
+    };
+    function titleCase(str) {
+        var str = str.toLowerCase();
+        return str.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
+    };
+    function getPercentage(value, total) {
+        return ((value/total)*100).toFixed(1);
+    }
+
+    var $width = $(window).width();
+    var center = [-34.618234674892, -58.503570556640625];
+    var zoom = 12;
+
+    if ($width <= 767) {
+        center = [-34.608627779881566, -58.450698852539055];
+        zoom = 12;
+    }
+
+    if ($width <= 479) {
+        zoom = 11;
+    }
+
+    var map = L.map('map', {
+        zoomControl: false,
+        minZoom: 11
+    }).setView(center, zoom);
+    // Base tiles
+    var mapquestLayer = new L.TileLayer('http://{s}.mqcdn.com/tiles/1.0.0/map/{z}/{x}/{y}.png', {
+        maxZoom: 18,
+        attribution: 'Data, imagery and map information provided by <a href="http://open.mapquest.co.uk" target="_blank">MapQuest</a>,<a href="http://www.openstreetmap.org/" target="_blank">OpenStreetMap</a> and contributors.',
+        subdomains: ['otile1','otile2','otile3','otile4']
+    });
+    map.addLayer(mapquestLayer);
+
+    // Styling tricks
     var radiusConstant = 0.5;
     var getRadius = function(value) {
         return Math.sqrt(value)*radiusConstant;
     };
-//'187_total', '501_total', '502_total',
-//        '503_total', '505_total', '506_total',
+
     var list2color = {
-        187: 'red',
-        501: 'blue',
-        502: 'yellow',
-        503: 'green',
-        505: 'purple',
-        506: 'pink',
+        '501': '#50ade6', // light blue
+        '502': '#6eb440', // green
+        '503': '#ffda00'  // yellow
     }
 
-    $.getJSON("/static/results.geojson", function (response) {
-        var dataLayer = L.geoJson(response, {
+    var list2abbrev = {
+        '501': 'FpV',
+        '502': 'UNEN',
+        '503': 'Pro'
+    };
+
+    // Fire off to get our GeoJSON
+    $.getJSON("static/results.geojson", function(response) {
+
+        // Pull in arrow layer from raster tiles
+        var arrowLayer = L.tileLayer("static/tiles/index.htmlbuenos-aires-election-2013-arrows/{z}/{x}/{y}.png");
+
+        // Pull in the circle layer from GeoJSON
+        var circleLayer = L.geoJson(response, {
             pointToLayer: function (feature, latlng) {
                 var marker = new L.circleMarker(latlng, {
                     fillColor: list2color[feature.properties['leader']],
                     color: list2color[feature.properties['leader']],
-                    fillOpacity: 0.4,
+                    fillOpacity: 0.5,
                     weight: 1
                 })
                 .setRadius(getRadius(feature.properties['margin_of_victory']))
-                .bindPopup(
-                    "<b>" + feature.properties['establecim'] + "</b><br>" +
-                    feature.properties['direccion']
+                .bindPopup(_.template($("#template-popup").html(), feature.properties)
                 );
                 return marker;
             }
-        }).addTo(map);
-        dataLayer.addData(response);
+        });
+
+        // Set the default data layer that will load with the map
+        map.addLayer(circleLayer);
+
+        // Create the layer control
+        /*
+        L.control.layers({
+            'By radius': circleLayer,
+            'By rotation': arrowLayer
+        }, null, {collapsed: false}).addTo(map);
+        */
+
+        // Add a little headline in there too
+        $(".leaflet-control-layers-list").prepend("<h3>Data styles</h3>");
+
+        // Add the zoom control in the upper right
+        new L.Control.Zoom({position: "topright"}).addTo(map);
     });
+
     </script>
 </body>
 </html>
