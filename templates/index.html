@@ -3,6 +3,7 @@
 <head>
     <title>{{ headline }}</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='normalize.min.css') }}" />
+    <link rel="stylesheet" href="{{ url_for('static', filename='bootstrap.modal.min.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='leaflet-0.6.4/leaflet.css') }}" />
     <!--[if lte IE 8]>
         <link rel="stylesheet" href="{{ url_for('static', filename='leaflet-0.6.4/leaflet.ie.css') }}" />
@@ -27,6 +28,31 @@
         form {
             margin: 0;
         }
+
+        .mobile-nav {
+            display: none;
+            position: fixed;
+            top: 0;
+            z-index: 4;
+            padding: 0 10px;
+            width: 100%;
+            background-color: rgb(255,255,255);
+            background-color: rgba(255,255,255,0.9);
+            line-height: 0;
+            box-shadow: 0px 1px 7px rgba(0, 0, 0, 0.4);
+        }
+
+        .mobile-nav h4 {
+            font-size: 18px;
+        }
+
+        .mobile-nav button {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            z-index: 4;
+        }
+
         #text {
             position:absolute;
             top:10px;
@@ -71,11 +97,32 @@
         .leaflet-control {
             clear: none !important;
         }
+
+        @media screen and (max-width: 768px) {
+            .mobile-nav {
+                display: inline;
+            }
+
+            #text {
+                display: none;
+            }
+
+            .leaflet-control-container {
+                display: none;
+            }
+        }
     </style>
     <script src="{{ url_for('static', filename='jquery-1.10.2.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='bootstrap.modal.min.js') }}"></script>
     <script src="{{ url_for('static', filename='leaflet-0.6.4/leaflet.js') }}"></script>
 </head>
 <body>
+    <div class="mobile-nav">
+        <h4>{{ headline }}</h4>
+        <button class="btn btn-primary btn-sm" data-toggle="modal" data-target="#about-modal">
+            ?
+        </button>
+    </div>
     <div id="text">
         <div>
             <h1>{{ headline }}</h1>
@@ -88,6 +135,21 @@
         </div>
     </div>
     <div id="map"></div>
+
+    <div class="modal" id="about-modal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">x</button>
+                    <h4>{{ headline }}</h4>
+                </div>
+                <div class="modal-body">
+                    {{ description|safe }}
+                </div>
+            </div>
+        </div>
+    </div>
+
     <script type="text/javascript">
     var map = L.map('map', {
         zoomControl: false
@@ -135,7 +197,7 @@
                 return marker;
             }
         });
-    
+
         // Set the default data layer that will load with the map
         map.addLayer(circleLayer);
 
