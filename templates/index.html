@@ -73,19 +73,22 @@
         }
         .popup {
             font-family: Arial, sans-serif;
+            width: 200px;
         }
         .popup .establecim {
+            font-size: 110%;
             font-weight: bold;
         }
         .popup table {
             margin: 7px 0 0 0;
             width: 100%;
         }
-        .popup table tr {
+        .popup table td {
             border-top: 1px solid #ddd;
             padding: 2px 0;
         }
-        .popup table td.right {
+        .popup table td.right,
+        .popup table th.right {
             text-align:right;
         }
     </style>
@@ -126,6 +129,9 @@
     function titleCase(str) {
         var str = str.toLowerCase();
         return str.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
+    };
+    function getPercentage(value, total) {
+        return ((value/total)*100).toFixed(1);
     }
 
     var map = L.map('map', {
