@@ -8,6 +8,7 @@
     <!--[if lte IE 8]>
         <link rel="stylesheet" href="{{ url_for('static', filename='leaflet-0.6.4/leaflet.ie.css') }}" />
     <![endif]-->
+    <link rel='stylesheet' href='http://fonts.googleapis.com/css?family=Source+Sans+Pro'>
     <style type="text/css">
         html {
             margin: 0;
@@ -44,7 +45,8 @@
         }
 
         .mobile-nav h4 {
-            font-size: 14px;
+            font-family: 'Source Sans Pro', Helvetica, sans-serif;
+            font-size: 16px;
             margin: 0;
         }
 
@@ -56,6 +58,7 @@
         }
 
         #text {
+            font-family: 'Source Sans Pro', Helvetica, sans-serif;
             position:absolute;
             top:10px;
             left:10px;
@@ -76,15 +79,14 @@
 
         #text h1 {
             font-size: 26px;
-            line-height: 30px;
+            line-height: 135%;
             margin: 0;
             padding: 0;
-            font-family: Arial, sans-serif;
             font-weight: bold;
         }
         #text p {
             font-size: 16px;
-            line-height: 20px;
+            line-height: 135%;
             margin: 8px 0;
             padding: 0;
         }
@@ -130,9 +132,23 @@
             margin: 0;
             padding: 3px 10px;
         }
+
+        .modal-header h4 {
+            font-family: 'Source Sans Pro', Helvetica, sans-serif;
+            line-height: 135%;
+            font-weight: bold;
+            font-size: 18px;
+        }
         .modal-body  {
             padding: 3px 25px;
         }
+
+        .modal-body p {
+            font-family: 'Source Sans Pro', Helvetica, sans-serif;
+            line-height: 135%;
+            font-size: 16px;
+        }
+
         .robotext {
             padding: 4px 0;
             margin: 4px 0 0 0;
