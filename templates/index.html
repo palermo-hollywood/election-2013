@@ -11,7 +11,7 @@
         html {
             margin: 0;
             padding: 0;
-            font-family: Georgia, sans-serif;
+            font-family: Georgia, serif;
         }
         body {
             margin: 0;
@@ -46,7 +46,7 @@
             line-height: 26px;
             margin: 0;
             padding: 0;
-            font-family: Arial;
+            font-family: Arial, sans-serif;
             font-weight: bold;
         }
         #text p {
@@ -54,6 +54,14 @@
             line-height: 18px;
             margin: 0;
             padding: 0;
+        }
+        .leaflet-control-layers-list h3 {
+            margin: 0;
+            padding: 0;
+            font-size: 11px;
+            text-transform: uppercase;
+            font-family: Arial, sans-serif;
+            font-weight: bold;
         }
     </style>
     <script src="{{ url_for('static', filename='jquery-1.10.2.min.js') }}"></script>
@@ -125,6 +133,9 @@
             'By radius': circleLayer,
             'By direction': arrowLayer
         }, null, {collapsed: false}).addTo(map);
+
+        // Add a little headline in there too
+        $(".leaflet-control-layers-list").prepend("<h3>Data styles</h3>");
 
         // Add the zoom control in the upper right
         new L.Control.Zoom({position: "topright"}).addTo(map);
