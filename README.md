@@ -1,4 +1,4 @@
-![don't hate](static/screenshot.png)
+[![phew](static/screenshot.png)](http://palermo-hollywood.github.io/election-2013/
 
 Resultados de las Oct. 2013 Buenos Aires elecciones
 
