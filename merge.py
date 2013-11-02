@@ -22,6 +22,7 @@ class PalmeroFTW(object):
         '503_total', # Allanza Union Pro (Yellow)
         '505_total', # Allanza Fet. de Izq.y de los Trabajadores (Red)
         '506_total', # Allanza Camino Popular (Gray)
+        'overall_total',
         'leader',
         'leader_total',
         'margin_of_victory',
@@ -69,6 +70,7 @@ class PalmeroFTW(object):
                     '503_total': int(results_data['503_total']),
                     '505_total':  int(results_data['505_total']),
                     '506_total': int(results_data['506_total']),
+                    'overall_total': int(results_data['overall_total']),
                     'fake_id': results_data['fake_id'],
                     'leader': int(results_data['leader']),
                     'leader_total': int(results_data['leader_total']),
@@ -126,6 +128,7 @@ class PalmeroFTW(object):
             for list_, total in sorted(totals.items(), key=lambda x:x[0]):
                 outrow.append(int(total))
             # Load in the extra stuff we've calculated
+            outrow.append(int(overall_total))
             outrow.append(leader)
             outrow.append(int(leader_total))
             outrow.append(int(margin_of_victory))

@@ -1,0 +1,45 @@
+<div class="popup">
+    <div class="establecim"><%= titleCase(obj.establecim) %></div>
+    <div class="direccion"><%= titleCase(obj.direccion) %></div>
+    <div class="results">
+        <table>
+            <thead>
+                <th>Party</th>
+                <th class="right">Votes</th>
+                <th class="right">Pct.</th>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>FpV</td>
+                    <td class="right"><%= addCommas(obj['501_total']) %></td>
+                    <td class="right"><%= getPercentage(obj['501_total'], obj['overall_total']) %>%</td>
+                </tr>
+                <tr>
+                    <td>UNEN</td>
+                    <td class="right"><%= addCommas(obj['502_total']) %></td>
+                    <td class="right"><%= getPercentage(obj['502_total'], obj['overall_total']) %>%</td>
+                </tr>
+                <tr>
+                    <td>Pro</td>
+                    <td class="right"><%= addCommas(obj['503_total']) %></td>
+                    <td class="right"><%= getPercentage(obj['503_total'], obj['overall_total']) %>%</td>
+                </tr>
+                <tr>
+                    <td>AyL</td>
+                    <td class="right"><%= addCommas(obj['187_total']) %></td>
+                    <td class="right"><%= getPercentage(obj['187_total'], obj['overall_total']) %>%</td>
+                </tr>
+                <tr>
+                    <td>FIT</td>
+                    <td class="right"><%= addCommas(obj['505_total']) %></td>
+                    <td class="right"><%= getPercentage(obj['505_total'], obj['overall_total']) %>%</td>
+                </tr>
+                <tr>
+                    <td>CP</td>
+                    <td class="right"><%= addCommas(obj['506_total']) %></td>
+                    <td class="right"><%= getPercentage(obj['506_total'], obj['overall_total']) %>%</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

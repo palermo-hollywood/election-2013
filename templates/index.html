@@ -98,6 +98,27 @@
             clear: none !important;
         }
 
+        .popup {
+            font-family: Arial, sans-serif;
+            width: 200px;
+        }
+        .popup .establecim {
+            font-size: 110%;
+            font-weight: bold;
+        }
+        .popup table {
+            margin: 7px 0 0 0;
+            width: 100%;
+        }
+        .popup table td {
+            border-top: 1px solid #ddd;
+            padding: 2px 0;
+        }
+        .popup table td.right,
+        .popup table th.right {
+            text-align:right;
+        }
+
         @media screen and (max-width: 768px) {
             .mobile-nav {
                 display: inline;
@@ -114,6 +135,7 @@
     </style>
     <script src="{{ url_for('static', filename='jquery-1.10.2.min.js') }}"></script>
     <script src="{{ url_for('static', filename='bootstrap.modal.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='underscore-min.js') }}"></script>
     <script src="{{ url_for('static', filename='leaflet-0.6.4/leaflet.js') }}"></script>
 </head>
 <body>
@@ -150,7 +172,30 @@
         </div>
     </div>
 
+    <script  id='template-popup' type="text/template">
+        {% include "popup.jst" %}
+    </script>
+
     <script type="text/javascript">
+    var addCommas = function (nStr) {
+        nStr += '';
+        x = nStr.split('.');
+        x1 = x[0];
+        x2 = x.length > 1 ? '.' + x[1] : '';
+        var rgx = /(\d+)(\d{3})/;
+        while (rgx.test(x1)) {
+            x1 = x1.replace(rgx, '$1' + ',' + '$2');
+        }
+        return x1 + x2;
+    };
+    function titleCase(str) {
+        var str = str.toLowerCase();
+        return str.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
+    };
+    function getPercentage(value, total) {
+        return ((value/total)*100).toFixed(1);
+    }
+
     var map = L.map('map', {
         zoomControl: false
     }).setView([-34.607214907435875, -58.440399169921875], 12);
@@ -190,9 +235,7 @@
                     weight: 1
                 })
                 .setRadius(getRadius(feature.properties['margin_of_victory']))
-                .bindPopup(
-                    "<b>" + feature.properties['establecim'] + "</b><br>" +
-                    feature.properties['direccion']
+                .bindPopup(_.template($("#template-popup").html(), feature.properties)
                 );
                 return marker;
             }
@@ -204,7 +247,7 @@
         // Create the layer control
         L.control.layers({
             'By radius': circleLayer,
-            'By direction': arrowLayer
+            'By rotation': arrowLayer
         }, null, {collapsed: false}).addTo(map);
 
         // Add a little headline in there too
