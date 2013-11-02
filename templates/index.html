@@ -109,6 +109,9 @@
             margin: 7px 0 0 0;
             width: 100%;
         }
+        .popup table td.winner {
+            font-weight: bold;
+        }
         .popup table td {
             border-top: 1px solid #ddd;
             padding: 2px 0;
@@ -117,12 +120,20 @@
         .popup table th.right {
             text-align:right;
         }
+        .popup table th {
+            border-top: 2px solid #ddd;
+            border-bottom: 2px solid #ddd;
+        }
         .modal-content h4, .modal-body {
             margin: 0; 
             padding: 3px 10px;
         }
         .modal-body  {
             padding: 3px 25px;
+        }
+        .robotext {
+            padding: 4px 0;
+            margin: 4px 0 0 0;
         }
         @media screen and (max-width: 768px) {
             .mobile-nav {
@@ -233,6 +244,12 @@
         '502': '#6eb440', // green
         '503': '#ffda00'  // yellow
     }
+
+    var list2abbrev = {
+        '501': 'FpV',
+        '502': 'UNEN',
+        '503': 'Pro'
+    };
 
     // Fire off to get our GeoJSON
     $.getJSON("{{ url_for('static', filename='results.geojson') }}", function(response) {
