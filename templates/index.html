@@ -28,7 +28,7 @@
     <div id="map"></div>
     <script type="text/javascript">
     var map = L.map('map').setView([-34.607214907435875, -58.440399169921875], 12);
-   var stamenUrl = 'http://{s}.tile.stamen.com/toner/{z}/{x}/{y}.png';
+    var stamenUrl = 'http://{s}.tile.stamen.com/toner/{z}/{x}/{y}.png';
     var stamenAttribution = 'Map tiles by <a href="http://stamen.com">Stamen Design</a>, under <a href="http://creativecommons.org/licenses/by/3.0">CC BY 3.0</a>. Data by <a href="http://openstreetmap.org">OpenStreetMap</a>, under <a href="http://creativecommons.org/licenses/by-sa/3.0">CC BY SA</a>.';
     var stamenLayer = new L.TileLayer(stamenUrl, {maxZoom: 18, attribution: stamenAttribution});
     map.addLayer(stamenLayer);
@@ -37,15 +37,11 @@
     var getRadius = function(value) {
         return Math.sqrt(value)*radiusConstant;
     };
-//'187_total', '501_total', '502_total',
-//        '503_total', '505_total', '506_total',
+
     var list2color = {
-        187: 'red',
-        501: 'blue',
-        502: 'yellow',
-        503: 'green',
-        505: 'purple',
-        506: 'pink',
+        '501': '#50ade6', // light blue
+        '502': '#6eb440', // green
+        '503': '#ffda00'  // yellow
     }
 
     $.getJSON("/static/results.geojson", function (response) {

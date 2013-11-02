@@ -15,9 +15,16 @@ class PalmeroFTW(object):
     general_csv_path = "./input/votos_establecimiento_caba_octubre.csv"
     location_json_path = "./input/locales_caba_paso2013.geojson"
     outheaders = [
-        'fake_id', '187_total', '501_total', '502_total',
-        '503_total', '505_total', '506_total',
-        'leader', 'leader_total', 'margin_of_victory',
+        'fake_id',
+        '187_total', # Partido Autodeterminacion y Libertad (Dark blue)
+        '501_total', # Allanza Frente para la Victoria (Light Blue)
+        '502_total', # Allanza UNEN (Green)
+        '503_total', # Allanza Union Pro (Yellow)
+        '505_total', # Allanza Fet. de Izq.y de los Trabajadores (Red)
+        '506_total', # Allanza Camino Popular (Gray)
+        'leader',
+        'leader_total',
+        'margin_of_victory',
     ]
     outcsv_path = "output/merged_totals.csv"
     outjson_path = "output/merged_totals.geojson"
