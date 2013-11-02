@@ -6,7 +6,7 @@ app = Flask(__name__)
 @app.route("/")
 def index():
     return render_template('index.html',
-        headline = "Resultados de las elecciones en la escuela donde votaste",
+        headline = "Resultados de las Buenos Aires elecciones",
         description = """
 <p>The results of October's deputies election at the schools where
 <em>Capital Federal</em> voters cast ballots.</p>
