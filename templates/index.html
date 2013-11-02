@@ -28,33 +28,49 @@
     </style>
     <script src="{{ url_for('static', filename='jquery-1.10.2.min.js') }}"></script>
     <script src="{{ url_for('static', filename='leaflet-0.6.4/leaflet.js') }}"></script>
+    <script src="{{ url_for('static', filename='leaflet-bing-layer-0.0.1.js') }}"></script>
 </head>
 <body>
     <div id="map"></div>
     <script type="text/javascript">
     var map = L.map('map').setView([-34.607214907435875, -58.440399169921875], 12);
-   var stamenUrl = 'http://{s}.tile.stamen.com/toner/{z}/{x}/{y}.png';
-    var stamenAttribution = 'Map tiles by <a href="http://stamen.com">Stamen Design</a>, under <a href="http://creativecommons.org/licenses/by/3.0">CC BY 3.0</a>. Data by <a href="http://openstreetmap.org">OpenStreetMap</a>, under <a href="http://creativecommons.org/licenses/by-sa/3.0">CC BY SA</a>.';
-    var stamenLayer = new L.TileLayer(stamenUrl, {maxZoom: 18, attribution: stamenAttribution});
-    map.addLayer(stamenLayer);
+    // Base tiles
+    var stamenLayer = new L.TileLayer(
+        'http://{s}.tile.stamen.com/toner/{z}/{x}/{y}.png', {
+            maxZoom: 18,
+            attribution: 'Map tiles by <a href="http://stamen.com">Stamen Design</a>, under <a href="http://creativecommons.org/licenses/by/3.0">CC BY 3.0</a>. Data by <a href="http://openstreetmap.org">OpenStreetMap</a>, under <a href="http://creativecommons.org/licenses/by-sa/3.0">CC BY SA</a>.'
+    });
+    var bingKey = "ApmsCgK3jSH-D8Ttdbjj4yqUvHAqkNYxBG94Fc0GJis_09Cab9Co5ZyuxoqYgVIa";
+    var bingRoadsLayer = L.bingLayer(bingKey, {
+        type: "Road", // Change this to "Aerial" or "AerialWithLabels" to use the other layers.
+        minZoom: 1,
+        maxZoom: 18
+    });
+    var bingAerialLayer = L.bingLayer(bingKey, {
+        type: "Aerial", // Change this to "Aerial" or "AerialWithLabels" to use the other layers.
+        minZoom: 1,
+        maxZoom: 18
+    });
+    var bingHybridLayer = L.bingLayer(bingKey, {
+        type: "Road",
+        minZoom: 1,
+        maxZoom: 18
+    });
+    map.addLayer(bingAerialLayer);
 
     var radiusConstant = 0.5;
     var getRadius = function(value) {
         return Math.sqrt(value)*radiusConstant;
     };
-//'187_total', '501_total', '502_total',
-//        '503_total', '505_total', '506_total',
-    var list2color = {
-        187: 'red',
-        501: 'blue',
-        502: 'yellow',
-        503: 'green',
-        505: 'purple',
-        506: 'pink',
-    };
 
-    $.getJSON("/static/results.geojson", function(response) {
-        var tileLayer = L.tileLayer('/static/tiles/buenos-aires-election-2013-arrows/{z}/{x}/{y}.png');
+    var list2color = {
+        '501': '#50ade6', // light blue
+        '502': '#6eb440', // green
+        '503': '#ffda00'  // yellow
+    }
+
+    $.getJSON("{{ url_for('static', filename='results.geojson') }}", function(response) {
+        var tileLayer = L.tileLayer("{{ url_for('static', filename='tiles/') }}buenos-aires-election-2013-arrows/{z}/{x}/{y}.png");
         var dataLayer = L.geoJson(response, {
             pointToLayer: function (feature, latlng) {
                 var marker = new L.circleMarker(latlng, {
