@@ -41,6 +41,7 @@ Fire up the Flask server that hosts our development pages.
 
 ```bash
 $ python app.py
+# Visit http://localhost:8000 in your browser and check it out.
 ```
 
 To flatten the Flask site so it can be hosted without a server as static files.
@@ -49,8 +50,6 @@ To flatten the Flask site so it can be hosted without a server as static files.
 # This will update the files in the ./build directory
 $ python freeze.py
 ```
-
-Visit [http://localhost:8000](http://localhost:8000) in your browser and check it out.
 
 Who to blame
 ------------
