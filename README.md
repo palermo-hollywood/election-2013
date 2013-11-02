@@ -1,7 +1,6 @@
-election-2013
-=============
+![don't hate](static/screenshot.png)
 
-Oct. 2013 election results for Argentine Diputados Nacionales in Buenos Aires.
+Resultados de las Oct. 2013 Buenos Aires elecciones
 
 Getting started
 ---------------
