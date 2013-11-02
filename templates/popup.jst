@@ -1,4 +1,34 @@
 <div class="popup">
     <div class="establecim"><%= titleCase(obj.establecim) %></div>
     <div class="direccion"><%= titleCase(obj.direccion) %></div>
+    <div class="results">
+        <table>
+            <tbody>
+                <tr>
+                    <td>FpV</td>
+                    <td class="right"><%= addCommas(obj['501_total']) %></td>
+                </tr>
+                <tr>
+                    <td>UNEN</td>
+                    <td class="right"><%= addCommas(obj['502_total']) %></td>
+                </tr>
+                <tr>
+                    <td>Pro</td>
+                    <td class="right"><%= addCommas(obj['503_total']) %></td>
+                </tr>
+                <tr>
+                    <td>AyL</td>
+                    <td class="right"><%= addCommas(obj['187_total']) %></td>
+                </tr>
+                <tr>
+                    <td>FIT</td>
+                    <td class="right"><%= addCommas(obj['505_total']) %></td>
+                </tr>
+                <tr>
+                    <td>CP</td>
+                    <td class="right"><%= addCommas(obj['506_total']) %></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
 </div>

@@ -77,6 +77,17 @@
         .popup .establecim {
             font-weight: bold;
         }
+        .popup table {
+            margin: 7px 0 0 0;
+            width: 100%;
+        }
+        .popup table tr {
+            border-top: 1px solid #ddd;
+            padding: 2px 0;
+        }
+        .popup table td.right {
+            text-align:right;
+        }
     </style>
     <script src="{{ url_for('static', filename='jquery-1.10.2.min.js') }}"></script>
     <script src="{{ url_for('static', filename='underscore-min.js') }}"></script>
@@ -101,10 +112,17 @@
     </script>
 
     <script type="text/javascript">
-    function capFirst(string) {
-        var string = string.toLowerCase();
-        return string.charAt(0).toUpperCase() + string.slice(1);
-    }
+    var addCommas = function (nStr) {
+        nStr += '';
+        x = nStr.split('.');
+        x1 = x[0];
+        x2 = x.length > 1 ? '.' + x[1] : '';
+        var rgx = /(\d+)(\d{3})/;
+        while (rgx.test(x1)) {
+            x1 = x1.replace(rgx, '$1' + ',' + '$2');
+        }
+        return x1 + x2;
+    };
     function titleCase(str) {
         var str = str.toLowerCase();
         return str.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
