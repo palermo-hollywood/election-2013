@@ -7,6 +7,7 @@ app = Flask(__name__)
 def index():
     return render_template('index.html',
         headline = "Resultados de las Buenos Aires elecciones",
+        pubdate = "Nov. 2, 2013",
         description = """
 <p>The results of October's deputies election at the schools where
 <em>Capital Federal</em> voters cast ballots.</p>

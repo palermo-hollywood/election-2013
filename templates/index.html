@@ -64,13 +64,13 @@
             left:10px;
             background: white;
             z-index: 1000;
-            padding: 10px 10px;
+            padding: 5px 10px;
             max-width: 350px;
             box-shadow: 0px 1px 7px rgba(0, 0, 0, 0.4);
             border-radius: 5px;
         }
         #text div {
-            margin: 0 0 5px 0;
+            margin: 0 0 0 0;
         }
 
         #text img {
@@ -79,7 +79,7 @@
 
         #text h1 {
             font-size: 26px;
-            line-height: 135%;
+            line-height: 125%;
             margin: 0;
             padding: 0;
             font-weight: bold;
@@ -87,7 +87,7 @@
         #text p {
             font-size: 16px;
             line-height: 135%;
-            margin: 8px 0;
+            margin: 6px 0;
             padding: 0;
         }
         .leaflet-control-layers-list h3 {
@@ -165,7 +165,7 @@
             font-size: 12px;
             font-weight: bold;
             margin: 0;
-            padding: 0 0 3px 0;
+            padding: 3px 0 3px 0;
             text-transform: uppercase;
         }
         .legend .party {
@@ -206,6 +206,10 @@
         .fvp {
             background-color: #50ade6;
         }
+        .pubdate {
+            margin: 2px 0 !important;
+            font-size: 12px;
+        }
         @media screen and (max-width: 768px) {
             .mobile-nav {
                 display: inline;
@@ -242,6 +246,7 @@
     <div id="text">
         <div>
             <h1>{{ headline }}</h1>
+            <div class="pubdate">{{ pubdate }}</div>
         </div>
         <div>
             {{ description|safe }}
