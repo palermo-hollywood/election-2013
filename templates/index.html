@@ -48,6 +48,9 @@
         506: 'pink',
     }
 
+    var tileLayer = L.tileLayer('/static/tiles/buenos-aires-election-2013-arrows/{z}/{x}/{y}.png');
+    map.addLayer(tileLayer);
+
     $.getJSON("/static/results.geojson", function (response) {
         var dataLayer = L.geoJson(response, {
             pointToLayer: function (feature, latlng) {
@@ -67,6 +70,7 @@
         }).addTo(map);
         dataLayer.addData(response);
     });
+
     </script>
 </body>
 </html>
