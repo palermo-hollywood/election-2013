@@ -1,79 +1,496 @@
 <!DOCTYPE html>
 <html>
+<head>
+    <title>Resultados de las Buenos Aires elecciones</title>
+    <link rel="stylesheet" href="static/normalize.min.css" />
+    <link rel="stylesheet" href="static/bootstrap.modal.min.css">
+    <link rel="stylesheet" href="static/leaflet-0.6.4/leaflet.css" />
+    <!--[if lte IE 8]>
+        <link rel="stylesheet" href="static/leaflet-0.6.4/leaflet.ie.css" />
+    <![endif]-->
+    <link rel='stylesheet' href='http://fonts.googleapis.com/css?family=Source+Sans+Pro'>
+    <style type="text/css">
+        html {
+            margin: 0;
+            padding: 0;
+            font-family: Georgia, serif;
+        }
+        body {
+            margin: 0;
+            padding: 0;
+        }
+        #map {
+            position:absolute;
+            top:0; bottom:0;
+            width:100%;
+            width: 100%;
+            height: 100%;
+        }
+        form {
+            margin: 0;
+        }
 
-  <head>
-    <meta charset='utf-8' />
-    <meta http-equiv="X-UA-Compatible" content="chrome=1" />
-    <meta name="description" content="Election-2013 : Oct. 2013 election results for Argentine Diputados Nacionales in Buenos Aires" />
+        .mobile-nav {
+            display: none;
+            position: fixed;
+            top: 0;
+            z-index: 4;
+            padding: 0 10px;
+            width: 100%;
+            background-color: rgb(255,255,255);
+            background-color: rgba(255,255,255,0.9);
+            height: 40px;
+            line-height: 40px;
+            box-shadow: 0px 1px 7px rgba(0, 0, 0, 0.4);
+        }
 
-    <link rel="stylesheet" type="text/css" media="screen" href="stylesheets/stylesheet.css">
+        .mobile-nav h4 {
+            font-family: 'Source Sans Pro', Helvetica, sans-serif;
+            font-size: 16px;
+            margin: 0;
+        }
 
-    <title>Election-2013</title>
-  </head>
+        .mobile-nav button {
+            position: absolute;
+            top: 5px;
+            right: 10px;
+            z-index: 4;
+        }
 
-  <body>
+        #text {
+            font-family: 'Source Sans Pro', Helvetica, sans-serif;
+            position:absolute;
+            top:10px;
+            left:10px;
+            background: white;
+            z-index: 1000;
+            padding: 5px 10px;
+            max-width: 350px;
+            box-shadow: 0px 1px 7px rgba(0, 0, 0, 0.4);
+            border-radius: 5px;
+        }
+        #text div {
+            margin: 0 0 0 0;
+        }
 
-    <!-- HEADER -->
-    <div id="header_wrap" class="outer">
-        <header class="inner">
-          <a id="forkme_banner" href="https://github.com/palermo-hollywood/election-2013">View on GitHub</a>
+        #text img {
+            width: 100%;
+        }
 
-          <h1 id="project_title">Election-2013</h1>
-          <h2 id="project_tagline">Oct. 2013 election results for Argentine Diputados Nacionales in Buenos Aires</h2>
+        #text h1 {
+            font-size: 26px;
+            line-height: 125%;
+            margin: 0;
+            padding: 0;
+            font-weight: bold;
+        }
+        #text p {
+            font-size: 16px;
+            line-height: 135%;
+            margin: 6px 0;
+            padding: 0;
+        }
+        .leaflet-control-layers-list h3 {
+            margin: 0;
+            padding: 0;
+            font-size: 11px;
+            text-transform: uppercase;
+            font-family: Arial, sans-serif;
+            font-weight: bold;
+        }
+        .leaflet-control {
+            clear: none !important;
+        }
+        .popup {
+            font-family: Arial, sans-serif;
+            width: 200px;
+        }
+        .popup .establecim {
+            font-size: 110%;
+            font-weight: bold;
+        }
+        .popup table {
+            margin: 7px 0 0 0;
+            width: 100%;
+        }
+        .popup table td.winner {
+            font-weight: bold;
+        }
+        .popup table td {
+            border-top: 1px solid #ddd;
+            padding: 2px 0;
+        }
+        .popup table td.right,
+        .popup table th.right {
+            text-align:right;
+        }
+        .popup table th {
+            border-top: 2px solid #ddd;
+            border-bottom: 2px solid #ddd;
+        }
+        .modal-content h4, .modal-body {
+            margin: 0;
+            padding: 3px 10px;
+        }
 
-            <section id="downloads">
-              <a class="zip_download_link" href="https://github.com/palermo-hollywood/election-2013/zipball/master">Download this project as a .zip file</a>
-              <a class="tar_download_link" href="https://github.com/palermo-hollywood/election-2013/tarball/master">Download this project as a tar.gz file</a>
-            </section>
-        </header>
+        .modal-header h4 {
+            font-family: 'Source Sans Pro', Helvetica, sans-serif;
+            line-height: 135%;
+            font-weight: bold;
+            font-size: 18px;
+        }
+        .modal-body  {
+            padding: 3px 25px;
+        }
+
+        .modal-body p {
+            font-family: 'Source Sans Pro', Helvetica, sans-serif;
+            line-height: 135%;
+            font-size: 16px;
+        }
+
+        .robotext {
+            padding: 4px 0;
+            margin: 4px 0 0 0;
+        }
+        .legend {
+            clear:both;
+        }
+        .legend div {
+            float: left;
+            clear: none;
+            margin: 0 0 2px 0 !important;
+        }
+        .legend-hed {
+            font-size: 12px;
+            font-weight: bold;
+            margin: 0;
+            padding: 3px 0 3px 0;
+            text-transform: uppercase;
+        }
+        .legend .party {
+            width: 33%;
+            padding: 3px;
+        }
+        .legend .name {
+            width: 100%;
+            text-align: center;
+            color: white;
+            font-size: 17px;
+        }
+        .legend .percent {
+            clear:both;
+            font-size:22px;
+            text-align:center;
+            width:100%;
+        }
+        .legend .votes {
+            width: 100%;
+            text-align:center;
+            font-size: 11px;
+        }
+        .about {
+            clear:both;
+            border-top: 1px dotted #ddd;
+        }
+        .about p {
+           font-size: 11px !important;
+           line-height:13px !important;
+        } 
+       .pro {
+            background-color: #ffda00;
+        }
+        .unen {
+            background-color: #6eb440;
+        }
+        .fvp {
+            background-color: #50ade6;
+        }
+        .pubdate {
+            margin: 2px 0 !important;
+            font-size: 12px;
+        }
+        @media screen and (max-width: 768px) {
+            .mobile-nav {
+                display: inline;
+            }
+
+            #text {
+                display: none;
+            }
+
+            .leaflet-control-container {
+                display: none;
+            }
+        }
+
+        @media screen and (max-width: 480px) {
+            .mobile-nav h4 {
+                font-size: 12px;
+            }
+        }
+
+    </style>
+    <script src="static/jquery-1.10.2.min.js"></script>
+    <script src="static/bootstrap.modal.min.js"></script>
+    <script src="static/underscore-min.js"></script>
+    <script src="static/leaflet-0.6.4/leaflet.js"></script>
+</head>
+<body>
+    <div class="mobile-nav">
+        <h4>Resultados de las Buenos Aires elecciones</h4>
+        <button class="btn btn-primary btn-sm" data-toggle="modal" data-target="#about-modal">
+            ?
+        </button>
+    </div>
+    <div id="text">
+        <div>
+            <h1>Resultados de las Buenos Aires elecciones</h1>
+            <div class="pubdate">Nov. 2, 2013</div>
+        </div>
+        <div>
+            
+<p>The results of October's deputies election at the schools where
+Capital Federal voters cast ballots.</p>
+
+<p>Circles are colored in to represent
+that party that won the most votes and sized to show the margin of victory.</p>
+
+        </div>
+        <div style="clear:both;border-top: 1px dotted #ddd;width:100%;padding-bottom:2px;"></div>
+        <h3 class="legend-hed">Overall results</h3>
+        <div class="legend">
+            <div class="party">
+                <div class="name pro">1. Pro</div>
+                <div class="percent">&nbsp;&nbsp;34.5%</div>
+                <div class="votes">623,117 votes</div>
+            </div>
+            <div class="party">
+                <div class="name unen">2. UNEN</div>
+                <div class="percent">&nbsp;&nbsp;32.2%</div>
+                <div class="votes">582,828 votes</div>
+            </div>
+            <div class="party">
+                <div class="name fvp">3. FvP</div>
+                <div class="percent">&nbsp;&nbsp;21.6%</div>
+                <div class="votes">390,506 votes</div>
+            </div>
+        </div>
+        <div style="clear:both;"></div>
+        <div class="about">
+            
+<p>
+    This is a modified take on <a href="http://www.lanacion.com.ar/1633333-como-fueron-los-resultados-de-las-elecciones-en-la-escuela-donde-votaste">a map</a> published by <em>La Nacion</em> 
+    last week.
+    It was developed by Team Hollywood Palermo at <a href="http://blogs.lanacion.com.ar/datafest/">Datafest 2013</a> in Buenos Aires.
+    The source is <a href="https://github.com/palermo-hollywood/election-2013">available on GitHub</a>.
+</p>
+
+        </div>
+        <div>
+            <a href="http://blogs.lanacion.com.ar/datafest/">
+                <img src="static/datafest_header.jpg">
+            </a>
+        </div>
+    </div>
+    <div id="map"></div>
+
+    <div class="modal" id="about-modal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">x</button>
+                    <h4>Resultados de las Buenos Aires elecciones</h4>
+                </div>
+                <div class="modal-body">
+                    
+<p>The results of October's deputies election at the schools where
+Capital Federal voters cast ballots.</p>
+
+<p>Circles are colored in to represent
+that party that won the most votes and sized to show the margin of victory.</p>
+
+                    <div style="clear:both;border-top: 1px dotted #ddd;width:100%;padding-bottom:2px;"></div>
+                    <h3 class="legend-hed">Overall results</h3>
+                    <div class="legend">
+                        <div class="party">
+                            <div class="name pro">1. Pro</div>
+                            <div class="percent">&nbsp;&nbsp;34.5%</div>
+                            <div class="votes">623,117 votes</div>
+                        </div>
+                        <div class="party">
+                            <div class="name unen">2. UNEN</div>
+                            <div class="percent">&nbsp;&nbsp;32.2%</div>
+                            <div class="votes">582,828 votes</div>
+                        </div>
+                        <div class="party">
+                            <div class="name fvp">3. FvP</div>
+                            <div class="percent">&nbsp;&nbsp;21.6%</div>
+                            <div class="votes">390,506 votes</div>
+                        </div>
+                    </div>
+                    <div style="clear:both;"></div>
+                    <div class="about">
+                        
+<p>
+    This is a modified take on <a href="http://www.lanacion.com.ar/1633333-como-fueron-los-resultados-de-las-elecciones-en-la-escuela-donde-votaste">a map</a> published by <em>La Nacion</em> 
+    last week.
+    It was developed by Team Hollywood Palermo at <a href="http://blogs.lanacion.com.ar/datafest/">Datafest 2013</a> in Buenos Aires.
+    The source is <a href="https://github.com/palermo-hollywood/election-2013">available on GitHub</a>.
+</p>
+
+                    </div>
+                </div>
+                <div>
+                    <a href="http://blogs.lanacion.com.ar/datafest/">
+                        <img style="padding: 5px 25px 20px 25px; width:100%" src="static/datafest_header.jpg">
+                    </a>
+                </div>
+            </div>
+        </div>
     </div>
 
-    <!-- MAIN CONTENT -->
-    <div id="main_content_wrap" class="outer">
-      <section id="main_content" class="inner">
-        <h3>
-<a name="welcome-to-github-pages" class="anchor" href="#welcome-to-github-pages"><span class="octicon octicon-link"></span></a>Welcome to GitHub Pages.</h3>
-
-<p>This automatic page generator is the easiest way to create beautiful pages for all of your projects. Author your page content here using GitHub Flavored Markdown, select a template crafted by a designer, and publish. After your page is generated, you can check out the new branch:</p>
-
-<pre><code>$ cd your_repo_root/repo_name
-$ git fetch origin
-$ git checkout gh-pages
-</code></pre>
-
-<p>If you're using the GitHub for Mac, simply sync your repository and you'll see the new branch.</p>
-
-<h3>
-<a name="designer-templates" class="anchor" href="#designer-templates"><span class="octicon octicon-link"></span></a>Designer Templates</h3>
-
-<p>We've crafted some handsome templates for you to use. Go ahead and continue to layouts to browse through them. You can easily go back to edit your page before publishing. After publishing your page, you can revisit the page generator and switch to another theme. Your Page content will be preserved if it remained markdown format.</p>
-
-<h3>
-<a name="rather-drive-stick" class="anchor" href="#rather-drive-stick"><span class="octicon octicon-link"></span></a>Rather Drive Stick?</h3>
-
-<p>If you prefer to not use the automatic generator, push a branch named <code>gh-pages</code> to your repository to create a page manually. In addition to supporting regular HTML content, GitHub Pages support Jekyll, a simple, blog aware static site generator written by our own Tom Preston-Werner. Jekyll makes it easy to create site-wide headers and footers without having to copy them across every page. It also offers intelligent blog support and other advanced templating features.</p>
-
-<h3>
-<a name="authors-and-contributors" class="anchor" href="#authors-and-contributors"><span class="octicon octicon-link"></span></a>Authors and Contributors</h3>
-
-<p>You can <a href="https://github.com/blog/821" class="user-mention">@mention</a> a GitHub username to generate a link to their profile. The resulting <code>&lt;a&gt;</code> element will link to the contributor's GitHub Profile. For example: In 2007, Chris Wanstrath (<a href="https://github.com/defunkt" class="user-mention">@defunkt</a>), PJ Hyett (<a href="https://github.com/pjhyett" class="user-mention">@pjhyett</a>), and Tom Preston-Werner (<a href="https://github.com/mojombo" class="user-mention">@mojombo</a>) founded GitHub.</p>
-
-<h3>
-<a name="support-or-contact" class="anchor" href="#support-or-contact"><span class="octicon octicon-link"></span></a>Support or Contact</h3>
-
-<p>Having trouble with Pages? Check out the documentation at <a href="http://help.github.com/pages">http://help.github.com/pages</a> or contact <a href="mailto:support@github.com">support@github.com</a> and we’ll help you sort it out.</p>
-      </section>
+    <script  id='template-popup' type="text/template">
+        <div class="popup">
+    <div class="establecim"><%= titleCase(obj.establecim) %></div>
+    <div class="direccion"><%= titleCase(obj.direccion) %></div>
+    <div class="results">
+        <table>
+            <thead>
+                <th>Party</th>
+                <th class="right">Votes</th>
+                <th class="right">Pct.</th>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>FpV <% if (obj.leader == '501' ) { %>✔<% } %> </td>
+                    <td class="right"><%= addCommas(obj['501_total']) %></td>
+                    <td class="right"><%= getPercentage(obj['501_total'], obj['overall_total']) %>%</td>
+                </tr>
+                <tr>
+                    <td>UNEN <% if (obj.leader == '502' ) { %>✔<% } %></td>
+                    <td class="right"><%= addCommas(obj['502_total']) %></td>
+                    <td class="right"><%= getPercentage(obj['502_total'], obj['overall_total']) %>%</td>
+                </tr>
+                <tr>
+                    <td>Pro <% if (obj.leader == '503' ) { %>✔<% } %></td>
+                    <td class="right"><%= addCommas(obj['503_total']) %></td>
+                    <td class="right"><%= getPercentage(obj['503_total'], obj['overall_total']) %>%</td>
+                </tr>
+                <tr>
+                    <td>AyL <% if (obj.leader == '187' ) { %>✔<% } %></td>
+                    <td class="right"><%= addCommas(obj['187_total']) %></td>
+                    <td class="right"><%= getPercentage(obj['187_total'], obj['overall_total']) %>%</td>
+                </tr>
+                <tr>
+                    <td>FIT <% if (obj.leader == '505' ) { %>✔<% } %></td>
+                    <td class="right"><%= addCommas(obj['505_total']) %></td>
+                    <td class="right"><%= getPercentage(obj['505_total'], obj['overall_total']) %>%</td>
+                </tr>
+                <tr>
+                    <td>CP <% if (obj.leader == '506' ) { %>✔<% } %></td>
+                    <td class="right"><%= addCommas(obj['506_total']) %></td>
+                    <td class="right"><%= getPercentage(obj['506_total'], obj['overall_total']) %>%</td>
+                </tr>
+            </tbody>
+        </table>
     </div>
+</div>
+    </script>
 
-    <!-- FOOTER  -->
-    <div id="footer_wrap" class="outer">
-      <footer class="inner">
-        <p class="copyright">Election-2013 maintained by <a href="https://github.com/palermo-hollywood">palermo-hollywood</a></p>
-        <p>Published with <a href="http://pages.github.com">GitHub Pages</a></p>
-      </footer>
-    </div>
+    <script type="text/javascript">
 
-    
+    var addCommas = function (nStr) {
+        nStr += '';
+        x = nStr.split('.');
+        x1 = x[0];
+        x2 = x.length > 1 ? '.' + x[1] : '';
+        var rgx = /(\d+)(\d{3})/;
+        while (rgx.test(x1)) {
+            x1 = x1.replace(rgx, '$1' + ',' + '$2');
+        }
+        return x1 + x2;
+    };
+    function titleCase(str) {
+        var str = str.toLowerCase();
+        return str.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
+    };
+    function getPercentage(value, total) {
+        return ((value/total)*100).toFixed(1);
+    }
 
-  </body>
+    var $width = $(window).width();
+    var center = [-34.618234674892, -58.503570556640625];
+    var zoom = 12;
+
+    if ($width <= 767) {
+        center = [-34.608627779881566, -58.450698852539055];
+        zoom = 12;
+    }
+
+    if ($width <= 479) {
+        zoom = 11;
+    }
+
+    var map = L.map('map', {
+        zoomControl: false,
+        minZoom: 11
+    }).setView(center, zoom);
+    // Base tiles
+    var mapquestLayer = new L.TileLayer('http://{s}.mqcdn.com/tiles/1.0.0/map/{z}/{x}/{y}.png', {
+        maxZoom: 18,
+        attribution: 'Data, imagery and map information provided by <a href="http://open.mapquest.co.uk" target="_blank">MapQuest</a>,<a href="http://www.openstreetmap.org/" target="_blank">OpenStreetMap</a> and contributors.',
+        subdomains: ['otile1','otile2','otile3','otile4']
+    });
+    map.addLayer(mapquestLayer);
+
+    // Styling tricks
+    var radiusConstant = 0.5;
+    var getRadius = function(value) {
+        return Math.sqrt(value)*radiusConstant;
+    };
+
+    var list2color = {
+        '501': '#50ade6', // light blue
+        '502': '#6eb440', // green
+        '503': '#ffda00'  // yellow
+    }
+
+    var list2abbrev = {
+        '501': 'FpV',
+        '502': 'UNEN',
+        '503': 'Pro'
+    };
+
+    // Fire off to get our GeoJSON
+    $.getJSON("static/results.geojson", function(response) {
+
+        // Pull in the circle layer from GeoJSON
+        var circleLayer = L.geoJson(response, {
+            pointToLayer: function (feature, latlng) {
+                var marker = new L.circleMarker(latlng, {
+                    fillColor: list2color[feature.properties['leader']],
+                    color: list2color[feature.properties['leader']],
+                    fillOpacity: 0.5,
+                    weight: 1
+                })
+                .setRadius(getRadius(feature.properties['margin_of_victory']))
+                .bindPopup(_.template($("#template-popup").html(), feature.properties)
+                );
+                return marker;
+            }
+        });
+
+        // Set the default data layer that will load with the map
+        map.addLayer(circleLayer);
+
+        // Add a little headline in there too
+        $(".leaflet-control-layers-list").prepend("<h3>Data styles</h3>");
+
+        // Add the zoom control in the upper right
+        new L.Control.Zoom({position: "topright"}).addTo(map);
+    });
+
+    </script>
+</body>
 </html>
