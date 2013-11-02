@@ -7,7 +7,10 @@ app = Flask(__name__)
 def index():
     return render_template('index.html',
         headline = "Headline goes here",
-        description = "This is lorem ipsum. Pay no attention. This is lorem ipsum. Pay no attention. This is lorem ipsum. Pay no attention."
+        description = """
+<p>This is lorem ipsum. Pay no attention. This is lorem ipsum. 
+Pay no attention. This is lorem ipsum. Pay no attention.</p>
+"""
     )
 
 
