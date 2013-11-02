@@ -101,6 +101,15 @@
     </script>
 
     <script type="text/javascript">
+    function capFirst(string) {
+        var string = string.toLowerCase();
+        return string.charAt(0).toUpperCase() + string.slice(1);
+    }
+    function titleCase(str) {
+        var str = str.toLowerCase();
+        return str.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
+    }
+
     var map = L.map('map', {
         zoomControl: false
     }).setView([-34.607214907435875, -58.440399169921875], 12);
