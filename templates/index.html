@@ -2,6 +2,7 @@
 <html>
 <head>
     <title>Palermo Hollywood, FTW</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='normalize.min.css') }}" />
     <link rel="stylesheet" href="{{ url_for('static', filename='leaflet-0.6.4/leaflet.css') }}" />
     <!--[if lte IE 8]>
         <link rel="stylesheet" href="{{ url_for('static', filename='leaflet-0.6.4/leaflet.ie.css') }}" />
@@ -19,6 +20,10 @@
             position: relative;
             width: 100%;
             height: 100%;
+        }
+
+        form {
+            margin: 0;
         }
     </style>
     <script src="{{ url_for('static', filename='jquery-1.10.2.min.js') }}"></script>
@@ -48,10 +53,8 @@
         506: 'pink',
     }
 
-    var tileLayer = L.tileLayer('/static/tiles/buenos-aires-election-2013-arrows/{z}/{x}/{y}.png');
-    map.addLayer(tileLayer);
-
-    $.getJSON("/static/results.geojson", function (response) {
+    $.getJSON("/static/results.geojson", function(response) {
+        var tileLayer = L.tileLayer('/static/tiles/buenos-aires-election-2013-arrows/{z}/{x}/{y}.png');
         var dataLayer = L.geoJson(response, {
             pointToLayer: function (feature, latlng) {
                 var marker = new L.circleMarker(latlng, {
@@ -67,8 +70,12 @@
                 );
                 return marker;
             }
-        }).addTo(map);
-        dataLayer.addData(response);
+        });
+
+        L.control.layers({
+            'Arrow Layer': tileLayer.addTo(map),
+            'Bubble Layer': dataLayer
+        }, null, {collapsed: false}).addTo(map);
     });
 
     </script>
