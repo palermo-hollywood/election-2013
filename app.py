@@ -5,7 +5,10 @@ app = Flask(__name__)
 
 @app.route("/")
 def index():
-    return render_template('index.html')
+    return render_template('index.html',
+        headline = "Headline goes here",
+        description = "This is lorem ipsum. Pay no attention. This is lorem ipsum. Pay no attention. This is lorem ipsum. Pay no attention."
+    )
 
 
 if __name__ == '__main__':

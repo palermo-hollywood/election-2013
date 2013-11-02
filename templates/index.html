@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Palermo Hollywood, FTW</title>
+    <title>{{ headline }}</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='normalize.min.css') }}" />
     <link rel="stylesheet" href="{{ url_for('static', filename='leaflet-0.6.4/leaflet.css') }}" />
     <!--[if lte IE 8]>
@@ -17,19 +17,44 @@
             padding: 0;
         }
         #map {
-            position: relative;
+            position:absolute;
+            top:0; bottom:0;
+            width:100%;
             width: 100%;
             height: 100%;
         }
-
         form {
             margin: 0;
+        }
+        #text {
+            position:absolute;
+            top:10px;
+            left:45px;
+            background: white;
+            z-index: 1000;
+            padding: 10px 20px;
+            max-width: 400px;
+        }
+        #text div {
+            margin: 0 0 10px 0;
+        }
+        #text h1 {
+            margin: 0;
+            padding: 0;
         }
     </style>
     <script src="{{ url_for('static', filename='jquery-1.10.2.min.js') }}"></script>
     <script src="{{ url_for('static', filename='leaflet-0.6.4/leaflet.js') }}"></script>
 </head>
 <body>
+    <div id="text">
+        <div>
+            <h1>{{ headline }}</h1>
+        </div>
+        <div>
+            {{ description }}
+        </div>
+    </div>
     <div id="map"></div>
     <script type="text/javascript">
     var map = L.map('map').setView([-34.607214907435875, -58.440399169921875], 12);
