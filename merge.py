@@ -51,6 +51,8 @@ class PalmeroFTW(object):
                 'properties': {
                     'direccion': row['properties']['direccion'],
                     'establecim': row['properties']['establecim'],
+                    'seccion': row['properties']['seccion'],
+                    'circuito': row['properties']['circuito'],
                     '187_total': int(results_data['187_total']),
                     '501_total': int(results_data['501_total']),
                     '502_total': int(results_data['502_total']),
@@ -63,8 +65,6 @@ class PalmeroFTW(object):
                     'margin_of_victory': int(results_data['margin_of_victory'])
                 }
             }
-            # Add in the results data
-            pprint(merged_dict)
             # Toss it in the global list
             merged_features.append(merged_dict)
         # Structure out new merged JSON
