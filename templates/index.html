@@ -260,10 +260,12 @@
         map.addLayer(circleLayer);
 
         // Create the layer control
+        /* 
         L.control.layers({
             'By radius': circleLayer,
             'By rotation': arrowLayer
         }, null, {collapsed: false}).addTo(map);
+        */
 
         // Add a little headline in there too
         $(".leaflet-control-layers-list").prepend("<h3>Data styles</h3>");
