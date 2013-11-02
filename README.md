@@ -25,6 +25,12 @@ Clone the repository.
 $ git clone git@github.com:palermo-hollywood/election-2013.git repo
 ```
 
+Jump into it.
+
+```bash
+$ cd repo
+```
+
 Install the other Python dependencies.
 
 ```bash
