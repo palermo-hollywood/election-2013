@@ -89,6 +89,11 @@
         </div>
     </div>
     <div id="map"></div>
+
+    <script  id='template-popup' type="text/template">
+        {% include "popup.jst" %}
+    </script>
+
     <script type="text/javascript">
     var map = L.map('map', {
         zoomControl: false
@@ -129,9 +134,7 @@
                     weight: 1
                 })
                 .setRadius(getRadius(feature.properties['margin_of_victory']))
-                .bindPopup(
-                    "<b>" + feature.properties['establecim'] + "</b><br>" +
-                    feature.properties['direccion']
+                .bindPopup(_.template($("#template-popup").html(), feature.properties)
                 );
                 return marker;
             }
