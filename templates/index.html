@@ -51,7 +51,7 @@
         503: 'green',
         505: 'purple',
         506: 'pink',
-    }
+    };
 
     $.getJSON("/static/results.geojson", function(response) {
         var tileLayer = L.tileLayer('/static/tiles/buenos-aires-election-2013-arrows/{z}/{x}/{y}.png');
