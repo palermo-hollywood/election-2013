@@ -62,7 +62,7 @@
             background: white;
             z-index: 1000;
             padding: 10px 10px;
-            max-width: 400px;
+            max-width: 350px;
             box-shadow: 0px 1px 7px rgba(0, 0, 0, 0.4);
             border-radius: 5px;
         }
@@ -209,6 +209,7 @@
     </script>
 
     <script type="text/javascript">
+
     var addCommas = function (nStr) {
         nStr += '';
         x = nStr.split('.');
@@ -228,9 +229,23 @@
         return ((value/total)*100).toFixed(1);
     }
 
+
+    var $width = $(window).width();
+    var center = [-34.618234674892, -58.503570556640625];
+    var zoom = 12;
+
+    if ($width <= 767) {
+        center = [-34.608627779881566, -58.450698852539055];
+        zoom = 12;
+    }
+
+    if ($width <= 479) {
+        zoom = 11;
+    }
+
     var map = L.map('map', {
         zoomControl: false
-    }).setView([-34.617, -58.465], 12);
+    }).setView(center, zoom);
     // Base tiles
     var mapquestLayer = new L.TileLayer('http://{s}.mqcdn.com/tiles/1.0.0/map/{z}/{x}/{y}.png', {
         maxZoom: 18,
@@ -283,7 +298,7 @@
         map.addLayer(circleLayer);
 
         // Create the layer control
-        /* 
+        /*
         L.control.layers({
             'By radius': circleLayer,
             'By rotation': arrowLayer
