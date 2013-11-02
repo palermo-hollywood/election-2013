@@ -245,7 +245,6 @@
         return ((value/total)*100).toFixed(1);
     }
 
-
     var $width = $(window).width();
     var center = [-34.618234674892, -58.503570556640625];
     var zoom = 12;
@@ -260,7 +259,8 @@
     }
 
     var map = L.map('map', {
-        zoomControl: false
+        zoomControl: false,
+        minZoom: 11
     }).setView(center, zoom);
     // Base tiles
     var mapquestLayer = new L.TileLayer('http://{s}.mqcdn.com/tiles/1.0.0/map/{z}/{x}/{y}.png', {
