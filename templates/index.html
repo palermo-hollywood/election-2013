@@ -41,6 +41,11 @@
         #text div {
             margin: 0 0 5px 0;
         }
+
+        #text img {
+            width: 100%;
+        }
+
         #text h1 {
             font-size: 26px;
             line-height: 26px;
@@ -77,6 +82,9 @@
         </div>
         <div>
             {{ description|safe }}
+        </div>
+        <div>
+            <img src="{{ url_for('static', filename='datafest_header.jpg') }}">
         </div>
     </div>
     <div id="map"></div>
