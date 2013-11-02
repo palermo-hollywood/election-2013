@@ -219,7 +219,7 @@
 
     var map = L.map('map', {
         zoomControl: false
-    }).setView([-34.607214907435875, -58.440399169921875], 12);
+    }).setView([-34.617, -58.465], 12);
     // Base tiles
     var mapquestLayer = new L.TileLayer('http://{s}.mqcdn.com/tiles/1.0.0/map/{z}/{x}/{y}.png', {
         maxZoom: 18,
@@ -266,10 +266,12 @@
         map.addLayer(circleLayer);
 
         // Create the layer control
+        /* 
         L.control.layers({
             'By radius': circleLayer,
             'By rotation': arrowLayer
         }, null, {collapsed: false}).addTo(map);
+        */
 
         // Add a little headline in there too
         $(".leaflet-control-layers-list").prepend("<h3>Data styles</h3>");
