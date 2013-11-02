@@ -74,7 +74,7 @@
 
         #text h1 {
             font-size: 26px;
-            line-height: 26px;
+            line-height: 30px;
             margin: 0;
             padding: 0;
             font-family: Arial, sans-serif;
@@ -82,8 +82,8 @@
         }
         #text p {
             font-size: 16px;
-            line-height: 18px;
-            margin: 0;
+            line-height: 20px;
+            margin: 8px 0;
             padding: 0;
         }
         .leaflet-control-layers-list h3 {
@@ -97,7 +97,6 @@
         .leaflet-control {
             clear: none !important;
         }
-
         .popup {
             font-family: Arial, sans-serif;
             width: 200px;
@@ -118,7 +117,6 @@
         .popup table th.right {
             text-align:right;
         }
-
         @media screen and (max-width: 768px) {
             .mobile-nav {
                 display: inline;
@@ -153,7 +151,9 @@
             {{ description|safe }}
         </div>
         <div>
-            <img src="{{ url_for('static', filename='datafest_header.jpg') }}">
+            <a href="http://blogs.lanacion.com.ar/datafest/">
+                <img src="{{ url_for('static', filename='datafest_header.jpg') }}">
+            </a>
         </div>
     </div>
     <div id="map"></div>
