@@ -1,5 +1,6 @@
 """
-Bakes out this app as a static site to be quickly published via GitHub Pages, but would work for Amazon S3 or really anywhere.
+Bakes out this app as a static site to be quickly published via GitHub Pages, 
+but would work for Amazon S3 or really anywhere.
 
 Usage: $ python freeze.py
 
