@@ -1,6 +1,6 @@
 ![don't hate](static/screenshot.png)
 
-Resultados de las Oct. 2013 Buenos Aires elecciones. Live at [http://palermo-hollywood.github.io/election-2013/](http://palermo-hollywood.github.io/election-2013/)
+Resultados de las Oct. 2013 Buenos Aires elecciones. Live at [http://palermo-hollywood.github.io/election-2013/](http://palermo-hollywood.github.io/election-2013/). Later appeared in a print edition of [La Nacion](http://www.flickr.com/photos/palewire/10837636836/) as well as its [website](http://www.lanacion.com.ar/1637762-la-obra-publica-y-el-clientelismo-tambien-pesan-en-la-capital).
 
 Getting started
 ---------------
